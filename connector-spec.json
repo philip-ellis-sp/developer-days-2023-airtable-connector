@@ -1,0 +1,127 @@
+{
+	"name": "developer-days-connector",
+	"commands": [
+		"std:account:list",
+		"std:account:read",
+		"std:test-connection",
+		"std:entitlement:list",
+		"std:entitlement:read",
+		"std:account:create",
+		"std:account:delete",
+		"std:account:update"
+	],
+	"sourceConfig": [
+		{
+			"type": "menu",
+			"label": "Configuration",
+			"items": [
+				{
+					"type": "section",
+					"sectionTitle": "Authentication",
+					"sectionHelpMessage": "Provide connection parameters to interact securely with the target application.",
+					"items": [
+						{
+							"key": "apiKey",
+							"label": "apiKey",
+							"type": "secret"
+						},
+						{
+							"key": "airtableBase",
+							"label": "airtableBase",
+							"type": "text"
+						}
+					]
+				}
+			]
+		}
+	],
+	"accountSchema":{
+		"displayAttribute": "id",
+		"identityAttribute": "id",
+		"groupAttribute": "entitlements",
+		"attributes":[
+			{
+				"name": "fullname",
+				"type": "string",
+				"description": "First name of the account"
+			},
+			{
+				"name": "email",
+				"type": "string",
+				"description": "Last name of the account"
+			},
+			{
+				"name": "id",
+				"type": "string",
+				"description": "Email of the account"
+			},
+			{
+				"name": "entitlements",
+				"type": "string",
+				"description": "Email of the account",
+				"entitlement": true,
+				"multi": true,
+				"managed": true
+			}
+		]
+	},
+	"entitlementSchemas": [
+		{
+			"type": "group",
+			"displayAttribute": "name",
+			"identityAttribute": "id",
+			"attributes": [
+				{
+					"name": "id",
+					"type": "string",
+					"description": "Unique ID of the group (ex. admin)"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"description": "The display name of the group (ex. Admin)"
+				}
+			]
+		}
+	],
+	"accountCreateTemplate": {
+		"fields": [
+			{
+				"key": "fullname",
+				"label": "fullname",
+				"type": "string",
+				"required": true,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "displayName"
+					}
+				}
+			},
+			{
+				"key": "email",
+				"label": "email",
+				"type": "string",
+				"required": true,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "email"
+					}
+				}
+			},
+			{
+				"key": "id",
+				"label": "id",
+				"type": "string",
+				"required": true,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "uid"
+					}
+				}
+			}
+		]
+	}
+}
